@@ -55,6 +55,7 @@ body {
 
 .enlaceNavegacion {
     color: var(--colorTextoPrincipal);
+    text-shadow: 0 0 15px var(--colorMoradoNeon);
     text-decoration: none;
     font-size: 1.1rem;
     font-weight: bold;
