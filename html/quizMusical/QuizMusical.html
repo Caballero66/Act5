@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arcade de Quizzes - Quiz Musical</title>
+    <link rel="stylesheet" href="../../css/quizMusical.css">
+</head>
+<body>
+    <header class="encabezadoQuiz">
+        <a href="../Quiz.html" class="botonSecundario">Regresar al inicio</a>
+    </header>
+
+    <main id="contenedorPrincipal">
+        <section id="pantallaCategorias" class="pantallaActiva">
+            <h2 class="subtitulo">Selecciona el Género</h2>
+            <div class="cuadriculaCategorias">
+                <button class="tarjetaCategoria" data-categoria="rock">Rock</button>
+                <button class="tarjetaCategoria" data-categoria="pop">Reguetón</button>
+                <button class="tarjetaCategoria" data-categoria="metal">Metal</button>
+                <button class="tarjetaCategoria" data-categoria="hiphop">Hip Hop</button>
+            </div>
+        </section>
+
+        <section id="pantallaInstrucciones" class="pantallaOculta">
+            <button id="botonInstrucciones" class="botonSecundario" type="button">Ver instrucciones</button>
+            <div id="panelInstrucciones" class="panelInstrucciones">
+                <ul>
+                    <li>Responderás una pregunta a la vez.</li>
+                    <li>Escucharás 10 segundos de una pista musical del género elegido.</li>
+                    <li>Al terminar el audio, tendrás 10 segundos para elegir el nombre de la canción correcto.</li>
+                    <li>Si se acaba el tiempo, cuenta como incorrecta.</li>
+                    <li>Cada respuesta correcta suma 1 punto.</li>
+                </ul>
+            </div>
+            <div class="contenedorAcciones">
+                <button id="botonIniciar" class="botonPrincipal" type="button">Comenzar Quiz</button>
+            </div>
+        </section>
+
+        <section id="pantallaPregunta" class="pantallaOculta">
+            <div class="indicadoresTecnicos">
+                <span id="contadorPuntos">Puntos: 0</span>
+                <span id="indicadorTiempo">Estado: Preparando audio...</span>
+            </div>
+            
+            <div class="contenedorAudioVisual">
+                <div class="ondaMusical"></div>
+            </div>
+
+            <div id="contenedorOpciones" class="cuadriculaOpciones opcionesDeshabilitadas">
+            </div>
+        </section>
+
+        <section id="pantallaResultados" class="pantallaOculta text-center">
+            <h2 class="subtitulo">Resultados Finales</h2>
+            <p class="textoDestacado">Obtuviste <span id="puntajeFinal">0</span> puntos.</p>
+            <button id="botonReiniciar" class="botonPrincipal text-center">Volver a Jugar</button>
+        </section>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="quizMusical.js"></script>
+</body>
+</html>

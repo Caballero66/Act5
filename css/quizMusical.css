@@ -1,0 +1,180 @@
+:root {
+    --colorFondoOscuro: #090a0f;
+    --colorMoradoProfundo: #1a0b2e;
+    --colorMoradoNeon: #b026ff;
+    --colorAzulPlasma: #00f0ff;
+    --colorTextoPrincipal: #ffffff;
+    --colorTextoSecundario: #a098b6;
+    --colorAcierto: #00ff88;
+    --colorError: #ff2a2a;
+    --fuentePrincipal: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --transicionEstandar: all 0.3s ease;
+    --sombraNeonMorado: 0 0 15px var(--colorMoradoNeon), 0 0 30px var(--colorMoradoNeon);
+    --sombraNeonAzul: 0 0 10px var(--colorAzulPlasma), 0 0 20px var(--colorAzulPlasma);
+}
+
+body {
+    background-color: var(--colorFondoOscuro);
+    color: var(--colorTextoPrincipal);
+    font-family: var(--fuentePrincipal);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.encabezadoQuiz {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 3rem;
+    background: rgba(9, 10, 15, 0.9);
+    border-bottom: 2px solid var(--colorMoradoNeon);
+    box-shadow: var(--sombraNeonMorado);
+}
+
+#contenedorPrincipal {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    background: radial-gradient(circle at center, var(--colorMoradoProfundo) 0%, var(--colorFondoOscuro) 70%);
+}
+
+.pantallaOculta {
+    display: none;
+}
+
+.subtitulo {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: var(--colorTextoPrincipal);
+}
+
+.cuadriculaCategorias, .cuadriculaOpciones {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.tarjetaCategoria, .botonOpcion {
+    background: rgba(9, 10, 15, 0.7);
+    border: 1px solid var(--colorMoradoNeon);
+    border-radius: 10px;
+    padding: 2rem;
+    color: var(--colorTextoPrincipal);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: var(--transicionEstandar);
+}
+
+.tarjetaCategoria:hover, .botonOpcion:hover:not(:disabled) {
+    transform: translateY(-5px);
+    box-shadow: var(--sombraNeonMorado);
+    border-color: var(--colorAzulPlasma);
+}
+
+.botonSecundario {
+    background-color: transparent;
+    color: var(--colorTextoPrincipal);
+    border: 1px solid var(--colorTextoSecundario);
+    padding: 8px 20px;
+    border-radius: 20px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: var(--transicionEstandar);
+}
+
+.botonSecundario:hover {
+    border-color: var(--colorAzulPlasma);
+    color: var(--colorAzulPlasma);
+}
+
+.botonPrincipal {
+    background-color: transparent;
+    color: var(--colorTextoPrincipal);
+    border: 2px solid var(--colorAzulPlasma);
+    padding: 12px 40px;
+    border-radius: 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: var(--transicionEstandar);
+    display: block;
+    margin: 2rem auto;
+}
+
+.botonPrincipal:hover {
+    background-color: var(--colorAzulPlasma);
+    color: var(--colorFondoOscuro);
+    box-shadow: var(--sombraNeonAzul);
+}
+
+.panelInstrucciones {
+    display: none;
+    background: rgba(26, 11, 46, 0.5);
+    border: 1px solid var(--colorTextoSecundario);
+    border-radius: 10px;
+    padding: 2rem;
+    margin-top: 1.5rem;
+    max-width: 600px;
+}
+
+.panelInstrucciones ul {
+    line-height: 1.8;
+}
+
+.indicadoresTecnicos {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 2rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--colorAzulPlasma);
+}
+
+.contenedorAudioVisual {
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.ondaMusical {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--colorMoradoNeon);
+    box-shadow: var(--sombraNeonMorado);
+    animation: palpitar 1s infinite alternate;
+}
+
+@keyframes palpitar {
+    from { transform: scale(1); opacity: 0.8; }
+    to { transform: scale(1.5); opacity: 0.3; }
+}
+
+.opcionesDeshabilitadas {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.respuestaCorrecta {
+    background-color: rgba(0, 255, 136, 0.2) !important;
+    border-color: var(--colorAcierto) !important;
+    box-shadow: 0 0 15px var(--colorAcierto) !important;
+}
+
+.respuestaIncorrecta {
+    background-color: rgba(255, 42, 42, 0.2) !important;
+    border-color: var(--colorError) !important;
+    box-shadow: 0 0 15px var(--colorError) !important;
+}
