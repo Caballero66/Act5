@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Películas | Arcade de Quizzes</title>
+    <link rel="stylesheet" href="../css/paginaPrincipal.css">
+
+</head>
+<body>
+    <div id="pantallacarga">
+        <h1>¡BIENVENIDO!😛</h1>
+        <div id="loader"></div>
+    </div>
+
+    <header id="encabezadoPrincipal">
+        <div id="contenedorIdentidad">
+            <h1 id="tituloProyecto">Arcade de Quizzes</h1>
+            <p id="descripcionProyecto">Bienvenido al Arcade de Quizzes, pon a prueba tus conocimientos en diferentes temáticas y obtén el máximo puntaje.</p>
+        </div>
+        <nav id="navegacionPrincipal">
+            <a href="Quiz.html#seccionQuizMusical" class="enlaceNavegacion">Quiz Musical</a>
+            <a href="Quiz.html#seccionQuizGeografico" class="enlaceNavegacion">Quiz Geográfico</a>
+            <a href="QuizIconos.html" class="enlaceNavegacion">Quiz de Películas</a>
+        </nav>
+    </header>
+
+    <main id="contenedorPrincipal">
+        <section id="seccionQuizPeliculas" class="seccionQuizPeliculas fondoQuizTres">
+            <div class="tarjetaQuiz">
+
+                <h2 class="tituloQuiz">Quiz de Películas</h2>
+                <p class="descripcionQuiz">Adivina la película a partir de los emojis que la describen.</p>
+
+                <!-- Instrucciones -->
+                <button id="botonInstrucciones" class="botonQuiz botonSecundario" type="button">Ver instrucciones</button>
+                <div id="panelInstrucciones" class="panelInstrucciones">
+                    <ul>
+                        <li>Responderás 10 preguntas, una a la vez.</li>
+                        <li>En cada pregunta verás unos emojis que resumen una película.</li>
+                        <li>Elige entre tres títulos (A, B y C). Solo uno es correcto.</li>
+                        <li>Tienes 10 segundos por pregunta. Si se acaba el tiempo, cuenta como incorrecta.</li>
+                        <li>Cada respuesta correcta suma 1 punto.</li>
+                    </ul>
+                </div>
+
+                <!-- Pantalla de inicio -->
+                <div id="pantallaInicio" class="pantallaQuiz">
+                    <button id="botonIniciar" class="botonQuiz" type="button">Comenzar quiz</button>
+                </div>
+
+                <!-- Pantalla de juego -->
+                <div id="pantallaJuego" class="pantallaQuiz">
+                    <div id="barraSuperior">
+                        <span id="textoProgreso">Pregunta 1 de 10</span>
+                        <span id="textoPuntos">Puntos: 0</span>
+                        <div id="temporizador" aria-live="polite">10</div>
+                    </div>
+
+                    <div id="pistaProgreso" aria-label="Progreso del quiz">
+                        <div id="barraRelleno"></div>
+                    </div>
+
+                    <h3 id="textoPregunta">¿Qué película describen estos emojis?</h3>
+
+                    <div id="cajaEmojis"></div>
+
+                    <div id="contenedorOpciones"></div>
+
+                    <p id="mensajeRespuesta" aria-live="polite"></p>
+                </div>
+
+                <!-- Pantalla de resultado -->
+                <div id="pantallaResultado" class="pantallaQuiz">
+                    <h3 id="tituloResultado">Resultado final</h3>
+                    <p id="puntajeFinal">0 / 10</p>
+                    <p id="mensajeFinal"></p>
+                    <button id="botonReiniciar" class="botonQuiz" type="button">Reiniciar quiz</button>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer id="pieDePagina">
+        <div id="contenedorCreditosEquipo">
+            <p>Cristofer Caballero | Kristy Cucul</p>
+        </div>
+        <div id="contenedorInformacionAcademica">
+            <p>Programación Web - 2026</p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        $(function () {
+
+            /*  CONFIGURACIÓN  */
+            const SEGUNDOS_POR_PREGUNTA = 10;
+            const PAUSA_ENTRE_PREGUNTAS = 1800; 
+            const LETRAS = ['A', 'B', 'C'];
+
+           
+            const PELICULAS = [
+                { titulo: 'Titanic',            emojis: '🚢🧊💔🎻' },
+                { titulo: 'El Rey León',        emojis: '🦁👑🌅🐗' },
+                { titulo: 'Toy Story',          emojis: '🤠🚀🧸👦' },
+                { titulo: 'Harry Potter',       emojis: '⚡🧙‍♂️🦉🪄' },
+                { titulo: 'Frozen',             emojis: '❄️👸⛄🎶' },
+                { titulo: 'Spider-Man',         emojis: '🕷️🕸️🏙️🦸‍♂️' },
+                { titulo: 'Buscando a Nemo',    emojis: '🐠🔍🌊🐢' },
+                { titulo: 'Jurassic Park',      emojis: '🦖🌴🧬🚙' },
+                { titulo: 'Shrek',              emojis: '👹🐴🏰🧅' },
+                { titulo: 'Piratas del Caribe', emojis: '🏴‍☠️💀⚓🦜' }
+            ];
+
+            /* ESTADO  */
+            let preguntas = [];
+            let indiceActual = 0;
+            let puntos = 0;
+            let tiempoRestante = SEGUNDOS_POR_PREGUNTA;
+            let intervalo = null;
+            let respondida = false;
+
+            /* AUXILIARES */
+
+            // Mezcla un array con números aleatorios (Fisher-Yates)
+            function mezclar(lista) {
+                const copia = lista.slice();
+                for (let i = copia.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [copia[i], copia[j]] = [copia[j], copia[i]];
+                }
+                return copia;
+            }
+
+            // Cada pregunta: 1 correcta + 2 títulos incorrectos al azar, mezclados
+            function generarPreguntas() {
+                return mezclar(PELICULAS).map(function (pelicula) {
+                    const incorrectas = mezclar(PELICULAS.filter(p => p.titulo !== pelicula.titulo)).slice(0, 2);
+                    return {
+                        emojis: pelicula.emojis,
+                        correcta: pelicula.titulo,
+                        opciones: mezclar([pelicula, incorrectas[0], incorrectas[1]])
+                    };
+                });
+            }
+
+            /* CRONÓMETRO */
+            function actualizarTemporizador() {
+                $('#temporizador').text(Math.ceil(tiempoRestante));
+                if (tiempoRestante <= 3) {
+                    $('#temporizador').addClass('urgente');
+                } else {
+                    $('#temporizador').removeClass('urgente');
+                }
+            }
+
+            function iniciarTemporizador() {
+                detenerTemporizador();
+                tiempoRestante = SEGUNDOS_POR_PREGUNTA;
+                actualizarTemporizador();
+
+                intervalo = setInterval(function () {
+                    tiempoRestante -= 0.1;
+                    if (tiempoRestante <= 0) {
+                        tiempoRestante = 0;
+                        actualizarTemporizador();
+                        tiempoAgotado();
+                    } else {
+                        actualizarTemporizador();
+                    }
+                }, 100);
+            }
+
+            function detenerTemporizador() {
+                clearInterval(intervalo);
+                intervalo = null;
+            }
+
+            /* MOSTRAR PREGUNTA */
+            function mostrarPregunta() {
+                const pregunta = preguntas[indiceActual];
+                respondida = false;
+
+                $('#cajaEmojis').text(pregunta.emojis);
+                $('#textoProgreso').text('Pregunta ' + (indiceActual + 1) + ' de ' + preguntas.length);
+                $('#textoPuntos').text('Puntos: ' + puntos);
+                $('#barraRelleno').css('width', ((indiceActual + 1) / preguntas.length * 100) + '%');
+                $('#mensajeRespuesta').text('').removeClass('mensajeCorrecto mensajeIncorrecto');
+
+                const $contenedor = $('#contenedorOpciones').empty();
+                pregunta.opciones.forEach(function (pelicula, i) {
+                    const $boton = $('<button type="button" class="opcionPelicula"></button>')
+                        .attr('data-titulo', pelicula.titulo)
+                        .append($('<span class="letraOpcion"></span>').text(LETRAS[i]))
+                        .append($('<span class="tituloOpcion"></span>').text(pelicula.titulo));
+                    $contenedor.append($boton);
+                });
+
+                $('#pantallaJuego').fadeIn(400);
+                iniciarTemporizador();
+            }
+
+            /* RESPONDER */
+            function revelarCorrecta() {
+                $('.opcionPelicula').addClass('bloqueada');
+                $('.opcionPelicula').filter(function () {
+                    return $(this).attr('data-titulo') === preguntas[indiceActual].correcta;
+                }).addClass('correcta');
+            }
+
+            function responder($botonElegido) {
+                if (respondida) return;
+                respondida = true;
+                detenerTemporizador();
+
+                const esCorrecta = $botonElegido.attr('data-titulo') === preguntas[indiceActual].correcta;
+                revelarCorrecta();
+
+                if (esCorrecta) {
+                    puntos++;
+                    $('#mensajeRespuesta').text('¡Correcto! +1 punto').addClass('mensajeCorrecto');
+                } else {
+                    $botonElegido.addClass('incorrecta');
+                    $('#mensajeRespuesta').text('Incorrecto. La respuesta correcta está marcada en verde.').addClass('mensajeIncorrecto');
+                }
+
+                $('#textoPuntos').text('Puntos: ' + puntos);
+                programarSiguiente();
+            }
+
+            function tiempoAgotado() {
+                if (respondida) return;
+                respondida = true;
+                detenerTemporizador();
+
+                revelarCorrecta();
+                $('#mensajeRespuesta').text('¡Se acabó el tiempo!').addClass('mensajeIncorrecto');
+                programarSiguiente();
+            }
+
+            function programarSiguiente() {
+                setTimeout(siguientePregunta, PAUSA_ENTRE_PREGUNTAS);
+            }
+
+            function siguientePregunta() {
+                $('#pantallaJuego').fadeOut(300, function () {
+                    indiceActual++;
+                    if (indiceActual < preguntas.length) {
+                        mostrarPregunta();
+                    } else {
+                        mostrarResultado();
+                    }
+                });
+            }
+
+            /* RESULTADO FINAL */
+            function mostrarResultado() {
+                let mensaje;
+                if (puntos === preguntas.length) {
+                    mensaje = '¡Perfecto! Eres un experto del cine.';
+                } else if (puntos >= 7) {
+                    mensaje = '¡Muy bien! Has visto muchas películas.';
+                } else if (puntos >= 4) {
+                    mensaje = 'Nada mal, pero te faltan películas por ver.';
+                } else {
+                    mensaje = 'Ánimo, inténtalo de nuevo.';
+                }
+
+                $('#puntajeFinal').text(puntos + ' / ' + preguntas.length);
+                $('#mensajeFinal').text(mensaje);
+                $('#pantallaResultado').fadeIn(500);
+            }
+
+            /* INICIAR / REINICIAR */
+            function iniciarQuiz() {
+                preguntas = generarPreguntas();
+                indiceActual = 0;
+                puntos = 0;
+                $('#barraRelleno').css('width', '0%');
+                mostrarPregunta();
+            }
+
+            /* EVENTOS (jQuery)  */
+
+            // Mostrar / ocultar instrucciones
+            $('#botonInstrucciones').click(function () {
+                $('#panelInstrucciones').slideToggle(300);
+                const $boton = $(this);
+                $boton.text($boton.text() === 'Ver instrucciones' ? 'Ocultar instrucciones' : 'Ver instrucciones');
+            });
+
+            // Comenzar
+            $('#botonIniciar').click(function () {
+                $('#panelInstrucciones').slideUp(200);
+                $('#botonInstrucciones').hide();
+                $('#pantallaInicio').fadeOut(300, iniciarQuiz);
+            });
+
+            // Elegir opción (delegado: las opciones se crean dinámicamente)
+            $('#contenedorOpciones').on('click', '.opcionPelicula', function () {
+                responder($(this));
+            });
+
+            // Reiniciar
+            $('#botonReiniciar').click(function () {
+                $('#pantallaResultado').fadeOut(300, iniciarQuiz);
+            });
+
+        });
+    </script>
+</body>
+</html>

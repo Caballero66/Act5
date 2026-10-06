@@ -210,3 +210,254 @@ body {
         visibility: hidden;
     }
 }
+
+/* Parte del Quiz */
+
+        :root {
+            --colorCorrecto: #00e68a;
+            --colorIncorrecto: #ff2e63;
+        }
+
+        .seccionQuizPeliculas {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 9rem 1.5rem 3rem;
+        }
+
+        .tarjetaQuiz {
+            background: rgba(26, 11, 46, 0.6);
+            border: 1px solid var(--colorMoradoNeon);
+            border-radius: 15px;
+            box-shadow: 0 0 25px rgba(176, 38, 255, 0.25);
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 880px;
+            text-align: center;
+        }
+
+        .botonQuiz {
+            background: var(--colorMoradoNeon);
+            color: var(--colorTextoPrincipal);
+            border: 2px solid var(--colorMoradoNeon);
+            border-radius: 999px;
+            padding: 0.8rem 2rem;
+            margin-top: 1.5rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            font-family: var(--fuentePrincipal);
+            cursor: pointer;
+            transition: var(--transicionEstandar);
+        }
+
+        .botonQuiz:hover {
+            background: transparent;
+            border-color: var(--colorAzulPlasma);
+            color: var(--colorAzulPlasma);
+            box-shadow: 0 0 20px var(--colorAzulPlasma);
+        }
+
+        .botonSecundario {
+            background: transparent;
+            color: var(--colorTextoSecundario);
+            border-color: var(--colorTextoSecundario);
+            font-size: 0.95rem;
+            padding: 0.5rem 1.4rem;
+        }
+
+        .panelInstrucciones {
+            display: none;
+            text-align: left;
+            background: rgba(9, 10, 15, 0.6);
+            border-left: 3px solid var(--colorAzulPlasma);
+            border-radius: 8px;
+            margin: 1.2rem auto 0;
+            padding: 1rem 1.5rem;
+            max-width: 600px;
+            color: var(--colorTextoSecundario);
+            line-height: 1.6;
+        }
+
+        .panelInstrucciones li {
+            margin-left: 1.2rem;
+        }
+
+        .pantallaQuiz {
+            display: none;
+            margin-top: 1rem;
+        }
+
+        #pantallaInicio {
+            display: block;
+        }
+
+
+        #barraSuperior {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+            color: var(--colorTextoSecundario);
+            font-size: 1rem;
+        }
+
+        #textoPuntos {
+            color: var(--colorTextoPrincipal);
+            font-weight: bold;
+        }
+
+        #temporizador {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: 3px solid var(--colorAzulPlasma);
+            color: var(--colorAzulPlasma);
+            font-size: 1.6rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: var(--transicionEstandar);
+        }
+
+        #temporizador.urgente {
+            border-color: var(--colorIncorrecto);
+            color: var(--colorIncorrecto);
+            box-shadow: 0 0 15px var(--colorIncorrecto);
+            animation: pulso 0.5s infinite alternate;
+        }
+
+        @keyframes pulso {
+            from { transform: scale(1); }
+            to   { transform: scale(1.12); }
+        }
+
+        #pistaProgreso {
+            width: 100%;
+            height: 12px;
+            background: var(--colorFondoOscuro);
+            border: 1px solid var(--colorMoradoProfundo);
+            border-radius: 999px;
+            margin-top: 0.8rem;
+            overflow: hidden;
+        }
+
+        #barraRelleno {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(to right, var(--colorMoradoNeon), var(--colorAzulPlasma));
+            border-radius: 999px;
+            transition: width 0.5s ease;
+        }
+
+
+        #textoPregunta {
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem;
+            text-shadow: 0 0 10px var(--colorMoradoNeon);
+        }
+
+        #cajaEmojis {
+            font-size: 4rem;
+            letter-spacing: 0.6rem;
+            line-height: 1.3;
+            background: rgba(9, 10, 15, 0.7);
+            border: 1px dashed var(--colorMoradoNeon);
+            border-radius: 12px;
+            padding: 1.2rem 1rem;
+            margin-bottom: 1.8rem;
+        }
+
+        #contenedorOpciones {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.2rem;
+        }
+
+        .opcionPelicula {
+            background: rgba(9, 10, 15, 0.7);
+            border: 2px solid var(--colorMoradoProfundo);
+            border-radius: 12px;
+            padding: 1.2rem 1rem;
+            min-height: 110px;
+            cursor: pointer;
+            color: var(--colorTextoPrincipal);
+            font-family: var(--fuentePrincipal);
+            font-size: 1.15rem;
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 0.6rem;
+            transition: var(--transicionEstandar);
+        }
+
+        .opcionPelicula:hover {
+            border-color: var(--colorMoradoNeon);
+            transform: translateY(-6px);
+            box-shadow: 0 0 25px rgba(176, 38, 255, 0.5);
+        }
+
+        .letraOpcion {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--colorAzulPlasma);
+        }
+
+
+        .opcionPelicula.correcta {
+            border-color: var(--colorCorrecto);
+            box-shadow: 0 0 25px var(--colorCorrecto);
+            transform: none;
+        }
+
+        .opcionPelicula.incorrecta {
+            border-color: var(--colorIncorrecto);
+            box-shadow: 0 0 25px var(--colorIncorrecto);
+            transform: none;
+        }
+
+        .opcionPelicula.bloqueada {
+            cursor: default;
+        }
+
+        .opcionPelicula.bloqueada:not(.correcta):not(.incorrecta) {
+            opacity: 0.45;
+            transform: none;
+            box-shadow: none;
+        }
+
+
+        #mensajeRespuesta {
+            min-height: 1.6rem;
+            margin-top: 1.5rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        #mensajeRespuesta.mensajeCorrecto   { color: var(--colorCorrecto); }
+        #mensajeRespuesta.mensajeIncorrecto { color: var(--colorIncorrecto); }
+
+
+        #puntajeFinal {
+            font-size: 4rem;
+            font-weight: bold;
+            color: var(--colorAzulPlasma);
+            text-shadow: 0 0 20px var(--colorAzulPlasma);
+            margin: 1rem 0;
+        }
+
+        #mensajeFinal {
+            color: var(--colorTextoSecundario);
+            font-size: 1.2rem;
+        }
+    }
+        @media (max-width: 700px) {
+            .tarjetaQuiz { padding: 1.5rem; }
+            #contenedorOpciones { grid-template-columns: 1fr; }
+            .opcionPelicula { flex-direction: row; justify-content: flex-start; min-height: auto; }
+            #cajaEmojis { font-size: 2.8rem; letter-spacing: 0.3rem; }
+            #textoPregunta { font-size: 1.3rem; }
+        }
