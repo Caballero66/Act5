@@ -81,7 +81,7 @@ body {
     background: radial-gradient(circle at center, var(--colorMoradoProfundo) 0%, var(--colorFondoOscuro) 70%);
 }
 
-.fondoQuizDos {
+.fondoQuizGeografico {
     background: radial-gradient(circle at center, #111a2e 0%, var(--colorFondoOscuro) 70%);
 }
 
