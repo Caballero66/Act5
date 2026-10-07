@@ -33,7 +33,7 @@
                         <li>Responderás 10 preguntas, una a la vez.</li>
                         <li>En cada pregunta verás unos emojis que resumen una película.</li>
                         <li>Elige entre tres títulos (A, B y C). Solo uno es correcto.</li>
-                        <li>Tienes 10 segundos por pregunta. Si se acaba el tiempo, cuenta como incorrecta.</li>
+                        <li>Tienes 5 segundos por pregunta. Si se acaba el tiempo, cuenta como incorrecta.</li>
                         <li>Cada respuesta correcta suma 1 punto.</li>
                     </ul>
                 </div>
@@ -48,7 +48,7 @@
                     <div id="barraSuperior">
                         <span id="textoProgreso">Pregunta 1 de 10</span>
                         <span id="textoPuntos">Puntos: 0</span>
-                        <div id="temporizador" aria-live="polite">10</div>
+                        <div id="temporizador" aria-live="polite"></div>
                     </div>
 
                     <div id="pistaProgreso" aria-label="Progreso del quiz">
@@ -90,7 +90,7 @@
         $(function () {
 
             /*  CONFIGURACIÓN  */
-            const SEGUNDOS_POR_PREGUNTA = 10;
+            const SEGUNDOS_POR_PREGUNTA = 5;
             const PAUSA_ENTRE_PREGUNTAS = 1800; 
             const LETRAS = ['A', 'B', 'C'];
 
