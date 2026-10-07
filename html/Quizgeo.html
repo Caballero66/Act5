@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz de Geografía | Arcade de Quizzes</title>
+    <link rel="stylesheet" href="../css/quizgeografico.css">
+</head>
+<body>
+
+    
+    <div id="pantallacarga">
+        <h1>Cargando 😎</h1>
+        <div id="loader"></div>
+    </div>
+
+    <header id="encabezadoPrincipal">
+        <div id="contenedorIdentidad">
+            <a href = "Quiz.html" id="tituloProyecto">← Regresar a la Página Principal</a>
+        </div>
+    </header>
+
+    <main id="contenedorPrincipal">
+
+        <section id="seccionQuizGeografico" class="seccionQuizGeografico fondoQuizGeografico">
+
+            <div class="tarjetaQuiz">
+
+                <div id="infoquiz">
+                    <h2 class="tituloQuiz">Quiz de Geografía</h2>
+                    <p class="descripcionQuiz">Pon a prueba tu conocimiento sobre países, continentes y lugares del mundo.</p>
+
+                
+                    <button id="botonInstrucciones" class="botonQuiz botonSecundario" type="button">Ver instrucciones</button>
+
+                    <div id="panelInstrucciones" class="panelInstrucciones">
+                        <ul>
+                            <li>Responderás 10 preguntas, una por una.</li>
+                            <li>Cada pregunta tendrá una imagen asociada a un país o lugar.</li>
+                            <li>Elige entre tres opciones.</li>
+                            <li>Tienes 10 segundos para responder, si se acaba el tiempo, se considerará como respuesta incorrecta.</li>
+                            <li>Cada respuesta correcta suma 1 punto.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                
+                <div id="pantallaInicio" class="pantallaQuiz">
+
+                    <button id="botonIniciar" class="botonQuiz" type="button">Comenzar quiz</button>
+
+                </div>
+
+                <div id="pantallaPreguntas" class="pantallaQuiz">
+
+                    
+                    <div id="barraSuperior">
+
+                        <span>Puntos:<strong id="textoPuntos">0</strong></span>
+
+                    <div id="temporizador">10</div>
+
+                    </div>
+
+
+                    
+                    <div id="pistaProgreso">
+                        <div id="barraRelleno"></div>
+                    </div>
+
+                    <h3 id="textoPregunta"></h3>
+
+                    <div id="cajaImagen">
+                        <img id="imagenPregunta"
+                             src=""
+                             alt="Imagen de la pregunta">
+                    </div>
+
+                    <div id="contenedorOpciones">
+
+                        <button class="opciones" data-opcion="0">
+                            <span class="letraOpcion">A</span>
+                            <span class="textoOpcion"></span>
+                        </button>
+
+                        <button class="opciones" data-opcion="1">
+                            <span class="letraOpcion">B</span>
+                            <span class="textoOpcion"></span>
+                        </button>
+
+                        <button class="opciones" data-opcion="2">
+                            <span class="letraOpcion">C</span>
+                            <span class="textoOpcion"></span>
+                        </button>
+
+                    </div>
+
+                    <div id="mensajeRespuesta"></div>
+
+                </div>
+
+                <div id="pantallaFinal" class="pantallaQuiz">
+
+                    <h2>¡Quiz terminado!</h2>
+
+                    <div id="puntajeFinal">
+                        0/10
+                    </div>
+
+                    <p id="mensajeFinal"></p>
+
+                    <button id="botonReiniciar"
+                            class="botonQuiz"
+                            type="button">
+                        ¡Jugar de nuevo!
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script src="../quizgeo.js"></script>
+
+</body>
+</html>
