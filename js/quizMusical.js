@@ -5,7 +5,7 @@ const baseDeDatosPreguntas =
             id: 1, 
             opciones: ["Despacito", "Sweet child o' mine", "Risk", "Iron Man"], 
             correcta: "Iron Man", 
-            audioUrl: "../../Recursos/cancionesQuizMusical/Ironman.flac",
+            audioUrl: "../../Recursos/cancionesQuizMusical/Ironman.mp3",
             tituloCancion: "Iron Man",
             imagenAlbum: "../../Recursos/portadaParanoid.jfif"
         },
@@ -31,9 +31,9 @@ const baseDeDatosPreguntas =
             id: 4,
             opciones: ["Break Stuff", "Given up", "Till I colapse", "El Garrobero"],
             correcta: "Break Stuff",
-            audioUrl: "../../Recursos/cancionesQuizMusical/BreakStuff.flac",
+            audioUrl: "../../Recursos/cancionesQuizMusical/BreakStuff.mp3",
             tituloCancion: "Break Stuff",
-            imagenAlbum: "../../Recursos/portadaSignificantOther.jfif",
+            imagenAlbum: "../../Recursos/portadaSignigicantOther.jfif",
         },
         {
             id: 5,
@@ -41,7 +41,7 @@ const baseDeDatosPreguntas =
             correcta: "Freak on a Leash",
             audioUrl: "../../Recursos/cancionesQuizMusical/FreakOnALeash.flac",
             tituloCancion: "Freak on a Leash",
-            imagenAlbum: "../../recursos/portadaKorn.jfif"
+            imagenAlbum: "../../Recursos/portadaKorn.jfif"
         },
         {
             id: 6,
@@ -49,7 +49,7 @@ const baseDeDatosPreguntas =
             correcta: "In the End",
             audioUrl: "../../Recursos/cancionesQuizMusical/InTheEnd.flac",
             tituloCancion: "In the End",
-            imagenAlbum: "../../recursos/portadadHybridTheory.jpg"
+            imagenAlbum: "../../Recursos/portadadHybridTheory.jpg"
         }
     ],
     hiphop: [
@@ -59,7 +59,7 @@ const baseDeDatosPreguntas =
             correcta: "Ambitionz az a Ridah",
             audioUrl: "../../Recursos/cancionesQuizMusical/Ambitionz.flac",
             tituloCancion: "Ambitionz az a Ridah",
-            imagenAlbum: "../../recursos/portadaAllEyesOnMe.jpg"
+            imagenAlbum: "../../Recursos/portadaAllEyesOnMe.jpg"
         },
         {
             id: 8,
@@ -67,7 +67,7 @@ const baseDeDatosPreguntas =
             correcta: "Keep their Heads Ringin'",
             audioUrl: "../../Recursos/cancionesQuizMusical/KeepTheirHeads.flac",
             tituloCancion: "Keep their Heads Ringin'",
-            imagenAlbum: "../../recursos/portadaDrDre.jpg"
+            imagenAlbum: "../../Recursos/portadaDrDre.jpg"
         },
         {
             id: 9,
@@ -75,7 +75,7 @@ const baseDeDatosPreguntas =
             correcta: "Window Shopper",
             audioUrl: "../../Recursos/cancionesQuizMusical/WindowShopper.flac",
             tituloCancion: "Window Shopper",
-            imagenAlbum: "../../recursos/portadaWindowShopper.jfif"
+            imagenAlbum: "../../Recursos/portadaWindowShopper.jfif"
         }
     ]
 }
@@ -90,6 +90,7 @@ let temporizadorRespuesta = null;
 let temporizadorRevelacion = null;
 let tiempoRestante = 0;
 let reproductorAudio = new Audio();
+let estaCargandoPista = false;
 
 $(document).ready(inicializarEventos);
 
@@ -169,11 +170,23 @@ function cargarPreguntaVisual() {
     }, 10000);
 }
 
-function ejecutarFaseAudio(rutaAudio) {
-    detenerTemporizadores();
+async function ejecutarFaseAudio(rutaAudio) {
+    await detenerTemporizadores();
+    
     $("#indicadorTiempo").text("Escucha la pista...");
     reproductorAudio.src = rutaAudio;
-    
+    estaCargandoPista = true;
+
+    try {
+        await reproductorAudio.play();
+        estaCargandoPista = false;
+    } catch (error) {
+        estaCargandoPista = false;
+        if (error.name !== "AbortError") {
+            console.warn("Error de reproducción:", error);
+        }
+    }
+
     temporizadorAudio = setTimeout(() => {
         finalizarFaseAudio();
     }, 10000);
@@ -208,7 +221,7 @@ function actualizarTextoReloj() {
     $("#indicadorTiempo").text(`Tiempo: ${tiempoRestante}s`);
 }
 
-function detenerTemporizadores() {
+async function detenerTemporizadores() {
     if (temporizadorAudio) {
         clearTimeout(temporizadorAudio);
         temporizadorAudio = null;
@@ -222,8 +235,16 @@ function detenerTemporizadores() {
         temporizadorRevelacion = null;
     }
 
-    reproductorAudio.pause();
-    reproductorAudio.currentTime = 0;
+    if (!reproductorAudio.paused) {
+        reproductorAudio.pause();
+        reproductorAudio.currentTime = 0;
+    } else if (estaCargandoPista) {
+        reproductorAudio.addEventListener("playing", function pausarAlCargar() {
+            reproductorAudio.pause();
+            reproductorAudio.currentTime = 0;
+            reproductorAudio.removeEventListener("playing", pausarAlCargar);
+        }, { once: true });
+    }
 }
 
 function procesarFinDeTiempo() {
