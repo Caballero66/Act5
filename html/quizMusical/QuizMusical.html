@@ -16,7 +16,6 @@
             <h2 class="subtitulo">Selecciona el Género</h2>
             <div class="cuadriculaCategorias">
                 <button class="tarjetaCategoria" data-categoria="rock">Rock</button>
-                <button class="tarjetaCategoria" data-categoria="pop">Reguetón</button>
                 <button class="tarjetaCategoria" data-categoria="metal">Metal</button>
                 <button class="tarjetaCategoria" data-categoria="hiphop">Hip Hop</button>
             </div>
@@ -52,6 +51,13 @@
             </div>
         </section>
 
+        <section id="pantallaRevelacion" class="pantallaOculta text-center">
+            <div class="contenedorTarjetaPortada">
+                <img id="imagenAlbum" src="" alt="Portada del Álbum" class="imagenPortada">
+                <h3 id="textoTituloCancion" class="tituloCancionRevelada"></h3>
+            </div>
+        </section>
+
         <section id="pantallaResultados" class="pantallaOculta text-center">
             <h2 class="subtitulo">Resultados Finales</h2>
             <p class="textoDestacado">Obtuviste <span id="puntajeFinal">0</span> puntos.</p>
@@ -60,6 +66,6 @@
     </main>
 
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-    <script src="quizMusical.js"></script>
+    <script src="../../js/quizMusical.js"></script>
 </body>
 </html>

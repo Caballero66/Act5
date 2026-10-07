@@ -47,6 +47,11 @@ body {
     display: none;
 }
 
+#contenedorPrincipal > section {
+    width: 100%;
+    max-width: 800px;
+}
+
 .subtitulo {
     text-align: center;
     font-size: 2.5rem;
@@ -56,7 +61,7 @@ body {
 
 .cuadriculaCategorias, .cuadriculaOpciones {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(1, 1fr);
     gap: 1.5rem;
     max-width: 800px;
     margin: 0 auto;
@@ -177,4 +182,29 @@ body {
     background-color: rgba(255, 42, 42, 0.2) !important;
     border-color: var(--colorError) !important;
     box-shadow: 0 0 15px var(--colorError) !important;
+}
+
+.contenedorTarjetaPortada {
+    background: rgba(9, 10, 15, 0.8);
+    border: 2px solid var(--colorAzulPlasma);
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: var(--sombraNeonAzul);
+    display: inline-block;
+}
+
+.imagenPortada {
+    width: 280px;
+    height: 280px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid var(--colorMoradoNeon);
+    box-shadow: var(--sombraNeonMorado);
+    margin-bottom: 1rem;
+}
+
+.tituloCancionRevelada {
+    color: var(--colorTextoPrincipal);
+    font-size: 1.5rem;
+    margin: 0;
 }
